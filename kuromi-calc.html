@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuromi Calculator 😈🎀</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Pacifico&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background-color: #1a1525;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            background-image: radial-gradient(circle, #2d1b36 10%, transparent 20%), radial-gradient(circle, #2d1b36 10%, transparent 20%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+        }
+
+        /* Calculator Styles */
+        .calculator {
+            background-color: #2b1d33;
+            width: 320px;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px #ff66cc;
+            border: 2px solid #5a3a66;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            font-family: 'Pacifico', cursive;
+            color: #ffb3e6;
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .display {
+            width: 100%;
+            height: 60px;
+            background-color: #f7e6ff;
+            color: #2b1d33;
+            text-align: right;
+            padding: 15px;
+            font-size: 24px;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 20px;
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #4a3055;
+            color: #ffb3e6;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+            box-shadow: 0 4px #1a1020;
+        }
+
+        button:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px #1a1020;
+        }
+
+        .operator {
+            background-color: #ff66cc;
+            color: #fff;
+            box-shadow: 0 4px #990066;
+        }
+
+        .operator:active {
+            box-shadow: 0 0px #990066;
+        }
+
+        .equal {
+            background-color: #9933ff;
+            color: #fff;
+            grid-column: span 2;
+            box-shadow: 0 4px #4c0099;
+        }
+
+        .equal:active {
+            box-shadow: 0 0px #4c0099;
+        }
+
+        /* Modal / Overlay Styles */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: #2b1d33;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #ff66cc;
+            width: 300px;
+            box-shadow: 0 0 20px #ff66cc;
+        }
+
+        .modal h2 { margin-bottom: 15px; color: #ffb3e6; }
+        .modal p { margin-bottom: 20px; font-size: 14px; }
+        .modal-btn {
+            background: #ff66cc; color: white; padding: 10px 20px;
+            border: none; border-radius: 5px; cursor: pointer;
+            font-weight: bold; margin: 5px;
+        }
+        .modal-btn:disabled { background: #555; cursor: not-allowed; }
+
+        /* Checkbox style */
+        .checkbox-container {
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; background: #fff; color: #000;
+            padding: 10px; border-radius: 5px; cursor: pointer;
+        }
+        .checkbox-container input { margin-right: 10px; width: 20px; height: 20px;}
+
+        /* Loading Spinner */
+        .loader {
+            border: 6px solid #4a3055;
+            border-top: 6px solid #ff66cc;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Hidden class for toggling */
+        .hidden { display: none; }
+
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <div class="header">Kuromi Calc 😈</div>
+        <input type="text" class="display" id="display" disabled>
+        <div class="buttons">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="append('/')" class="operator">/</button>
+            <button onclick="append('*')" class="operator">*</button>
+            <button onclick="append('-')" class="operator">-</button>
+            
+            <button onclick="append('7')">7</button>
+            <button onclick="append('8')">8</button>
+            <button onclick="append('9')">9</button>
+            <button onclick="append('+')" class="operator" style="grid-row: span 2; height: 100%;">+</button>
+            
+            <button onclick="append('4')">4</button>
+            <button onclick="append('5')">5</button>
+            <button onclick="append('6')">6</button>
+            
+            <button onclick="append('1')">1</button>
+            <button onclick="append('2')">2</button>
+            <button onclick="append('3')">3</button>
+            <button onclick="startVerification()" class="equal" style="grid-row: span 2; height: 100%;">=</button>
+            
+            <button onclick="append('0')" style="grid-column: span 2;">0</button>
+            <button onclick="append('.')">.</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        
+        <div class="modal" id="step1">
+            <h2>Security Check 🤖</h2>
+            <label class="checkbox-container">
+                <input type="checkbox" id="robotCheck" onchange="toggleRobotBtn()">
+                I am not a robot
+            </label>
+            <button class="modal-btn" id="btn1" disabled onclick="nextStep('step1', 'step2')">Continue</button>
+        </div>
+
+        <div class="modal hidden" id="step2">
+            <h2>Privacy Policy 🍪</h2>
+            <p>We use cookies to steal... I mean, enhance your experience. Do you accept all cookies?</p>
+            <button class="modal-btn" onclick="nextStep('step2', 'step3')">Accept All</button>
+        </div>
+
+        <div class="modal hidden" id="step3">
+            <h2>Age Verification 🔞</h2>
+            <p>You must be old enough to handle this math. Are you 18 or older?</p>
+            <button class="modal-btn" onclick="nextStep('step3', 'step4')">Yes, I am</button>
+            <button class="modal-btn" style="background:#4a3055;" onclick="alert('Liar. Proceed anyway.') ; nextStep('step3', 'step4')">No</button>
+        </div>
+
+        <div class="modal hidden" id="step4">
+            <h2>Loyalty Check 🖤</h2>
+            <p>Do you swear eternal loyalty to Kuromi and acknowledge My Melody as the enemy?</p>
+            <button class="modal-btn" onclick="nextStep('step4', 'step5')">I Swear It 😈</button>
+        </div>
+
+        <div class="modal hidden" id="step5">
+            <h2>Premium Answer 💸</h2>
+            <p>To view the total of your calculation, please subscribe for only <b>₱250/month</b>.</p>
+            <button class="modal-btn" onclick="processSubscription()">Pay & Subscribe</button>
+        </div>
+
+        <div class="modal hidden" id="step6">
+            <h2>Processing Payment...</h2>
+            <div class="loader"></div>
+            <p style="margin-top: 10px; color: #aaa;">Please do not close this window...</p>
+        </div>
+
+        <div class="modal hidden" id="step7">
+            <h2>🎉 Success! 🎉</h2>
+            <p>Subscription kemerut successful! Your soul and ₱250 are now ours.</p>
+            <button class="modal-btn" onclick="showTotal()">Reveal My Answer</button>
+        </div>
+
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        let currentExpression = '';
+
+        function append(value) {
+            currentExpression += value;
+            display.value = currentExpression;
+        }
+
+        function clearDisplay() {
+            currentExpression = '';
+            display.value = '';
+        }
+
+        // Starts the annoying sequence when "=" is clicked
+        function startVerification() {
+            if (currentExpression === '') return;
+            document.getElementById('overlay').style.display = 'flex';
+        }
+
+        // Checkbox logic for Robot step
+        function toggleRobotBtn() {
+            const isChecked = document.getElementById('robotCheck').checked;
+            document.getElementById('btn1').disabled = !isChecked;
+        }
+
+        // Hides current step, shows the next step
+        function nextStep(currentId, nextId) {
+            document.getElementById(currentId).classList.add('hidden');
+            document.getElementById(nextId).classList.remove('hidden');
+        }
+
+        // Handles the fake loading screen
+        function processSubscription() {
+            nextStep('step5', 'step6'); // Show loading
+            
+            // Wait 3 seconds, then show success
+            setTimeout(() => {
+                nextStep('step6', 'step7');
+            }, 3000);
+        }
+
+        // Finally calculates and closes the overlay
+        function showTotal() {
+            try {
+                // Calculate the math
+                let answer = eval(currentExpression);
+                display.value = answer;
+                currentExpression = answer.toString();
+            } catch (error) {
+                display.value = "Error 💀";
+                currentExpression = '';
+            }
+
+            // Hide overlay and reset modals for next time
+            document.getElementById('overlay').style.display = 'none';
+            resetModals();
+        }
+
+        // Resets the modals so it happens again next time they click '='
+        function resetModals() {
+            document.getElementById('step7').classList.add('hidden');
+            document.getElementById('step1').classList.remove('hidden');
+            document.getElementById('robotCheck').checked = false;
+            document.getElementById('btn1').disabled = true;
+        }
+    </script>
+</body>
+</html>
