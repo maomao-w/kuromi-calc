@@ -369,20 +369,22 @@
         }
 
         function verifyPuzzle() {
-            const catsSelected = document.querySelectorAll('.cat.selected').length;
-            const dogsSelected = document.querySelectorAll('.dog.selected').length;
+      const catsSelected = document.querySelectorAll('.cat.selected').length;
+    const dogsSelected = document.querySelectorAll('.dog.selected').length;
 
-            if (catsSelected === 5 || dogsSelected > 0) {
-                // If they clicked ALL cats, or clicked the dog
-                alert("Verification failed! Are you a robot?");
-                document.querySelectorAll('.puzzle-item').forEach(el => el.classList.remove('selected'));
-            } else if (catsSelected === 0) {
-                alert("You must select at least one cat!");
-            } else {
-                // Passed! (Selected 1 to 4 cats, and 0 dogs). Skips straight to step 7.
-                nextStep('step5', 'step7');
-            }
-        }
+    if (dogsSelected > 0) {
+        // If they clicked the dog
+        alert("Verification failed! You clicked a dog! Are you a robot?");
+        document.querySelectorAll('.puzzle-item').forEach(el => el.classList.remove('selected'));
+    } else if (catsSelected < 5) {
+        // If they missed some cats
+        alert("Verification failed! You must select ALL the cats!");
+    } else {
+        // Passed! (Selected exactly 5 cats, and 0 dogs).
+        nextStep('step5', 'step7');
+    }
+}
+
 
         // LOYALTY CURSE
         function showCurse() {
