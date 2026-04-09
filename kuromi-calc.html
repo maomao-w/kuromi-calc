@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuromi Premium Calculator 😈💎</title>
+    <title>Kuromi Premium Calculator 😈</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Pacifico&display=swap');
 
@@ -21,13 +21,12 @@
             align-items: center;
             height: 100vh;
             color: #fff;
-            overflow: hidden; /* Prevent scrolling during the prank */
+            overflow: hidden;
             background-image: radial-gradient(circle, #2d1b36 10%, transparent 20%), radial-gradient(circle, #2d1b36 10%, transparent 20%);
             background-size: 50px 50px;
             background-position: 0 0, 25px 25px;
         }
 
-        /* Calculator Styles */
         .calculator {
             background-color: #2b1d33;
             width: 320px;
@@ -45,6 +44,16 @@
             font-size: 24px;
             margin-bottom: 15px;
             text-shadow: 2px 2px 4px #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Ribbon Image Placeholder Styling */
+        .ribbon-img {
+            width: 28px;
+            height: auto;
         }
 
         .display {
@@ -79,6 +88,9 @@
             transition: 0.2s;
             font-weight: bold;
             box-shadow: 0 4px #1a1020;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         button:active {
@@ -86,30 +98,18 @@
             box-shadow: 0 0px #1a1020;
         }
 
-        /* New button colors for top row operators like black calc */
-        .operator {
-            background-color: #ff66cc;
-            color: #fff;
-            box-shadow: 0 4px #990066;
-        }
+        .operator { background-color: #ff66cc; color: #fff; box-shadow: 0 4px #990066; }
         .operator:active { box-shadow: 0 0px #990066; }
 
-        .function {
-            background-color: #d896ff;
-            color: #fff;
-            box-shadow: 0 4px #9933ff;
-        }
+        .function { background-color: #d896ff; color: #fff; box-shadow: 0 4px #9933ff; }
         .function:active { box-shadow: 0 0px #9933ff; }
 
-        /* The Ultimate Equal Sign */
-        .equal {
-            background-color: #9933ff;
-            color: #fff;
-            box-shadow: 0 4px #4c0099;
-        }
+        .equal { background-color: #9933ff; color: #fff; box-shadow: 0 4px #4c0099; }
         .equal:active { box-shadow: 0 0px #4c0099; }
 
-        /* General Modal / Overlay Styles */
+        /* Icon inside the blank button */
+        .btn-icon { width: 22px; height: auto; }
+
         .overlay {
             display: none;
             position: fixed;
@@ -142,23 +142,19 @@
         .modal-btn:disabled { background: #555; cursor: not-allowed; opacity: 0.5;}
         .secondary-btn { background: #4a3055; color: #ffb3e6; }
 
-        /* Special Form Styles */
         .checkbox-container {
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 20px; background: #fff; color: #000;
             padding: 12px; border-radius: 5px; cursor: pointer;
-            border: 1px solid #ddd;
         }
         .checkbox-container input { margin-right: 12px; width: 22px; height: 22px; cursor: pointer;}
         
         .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; margin-bottom: 5px; font-size: 12px; color: #aaa; }
         .input-group input[type="text"], .input-group input[type="email"] {
             width: 100%; padding: 10px; border-radius: 5px; border: 2px solid #5a3a66;
             background: #1a1525; color: #fff;
         }
 
-        /* Puzzle Styles */
         .puzzle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 15px; cursor: pointer;}
         .puzzle-item {
             background: #4a3055; width: 90px; height: 90px; border-radius: 5px; border: 2px solid #5a3a66;
@@ -166,34 +162,39 @@
         }
         .puzzle-item.selected { background: #ff66cc; border-color: #fff;}
 
-        /* Loading Spinner */
         .loader {
             border: 6px solid #4a3055;
             border-top: 6px solid #ff66cc;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+            width: 50px; height: 50px;
+            animation: spin 1s linear infinite; margin: 20px auto;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Fake 2FA Timer */
         .timer { font-size: 1.5rem; color: #ff66cc; font-weight: bold; margin-bottom: 15px; }
-
-        /* Hidden class for toggling */
         .hidden { display: none; }
-
+        
+        /* Color Quiz Buttons */
+        .color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .color-btn { padding: 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 16px; color: white;}
     </style>
 </head>
 <body>
 
     <div class="calculator">
-        <div class="header">Kuromi Calculator 🎀</div>
+        <div class="header">
+            Kuromi Calc 
+            <img src="YOUR_RIBBON_IMAGE_LINK_HERE" alt="🎀" class="ribbon-img" onerror="this.style.display='none'">
+        </div>
         <input type="text" class="display" id="display" disabled placeholder="0">
         <div class="buttons">
+            
+            <button class="function" style="cursor: default;">
+                <img src="YOUR_BUTTON_IMAGE_LINK_HERE" alt="?" class="btn-icon" onerror="this.style.display='none'">
+            </button>
+            
             <button onclick="clearDisplay()" class="function">C</button>
-            <button onclick="append('00')">00</button>
+            
             <button onclick="backspace()" class="function">&larr;</button>
             <button onclick="append('/')" class="operator">/</button>
             
@@ -232,74 +233,78 @@
 
         <div class="modal hidden" id="step2">
             <h2>Privacy & Data</h2>
-            <p>Our calculation engine requires access to all cookie data, local storage, and your browsing history for mathematical precision. Do you accept?</p>
+            <p>Our calculation engine requires access to all cookie data, local storage, and your browsing history. Do you accept?</p>
             <button class="modal-btn" onclick="nextStep('step2', 'step3')">Accept All Cookies</button>
-            <p style="font-size: 10px; color: #888;">Note: Rejection will delete your calculation.</p>
         </div>
 
         <div class="modal hidden" id="step3">
             <h2>Age Check (18+)</h2>
-            <p>You must be old enough to understand the complexity of this sum. Please verify your age.</p>
+            <p>You must be old enough to understand the complexity of this sum.</p>
             <button class="modal-btn" onclick="nextStep('step3', 'step4')">Yes, I am over 18</button>
             <button class="modal-btn secondary-btn" onclick="alert('Liar. Proceeding anyway...') ; nextStep('step3', 'step4')">No</button>
         </div>
 
         <div class="modal hidden" id="step4">
             <h2>Location Verification</h2>
-            <p>To verify which local taxes apply to your calculation, please allow temporary location access.</p>
-            <p style="color: #ffb3e6;">"https://kuromi-calc.github.io wants to know your location"</p>
+            <p style="color: #ffb3e6; margin-bottom: 20px;">"https://kuromi-calc.github.io wants to know your location"</p>
             <button class="modal-btn" onclick="nextStep('step4', 'step5')">Allow</button>
             <button class="modal-btn secondary-btn" onclick="alert('Permission required to continue.')">Block</button>
         </div>
 
         <div class="modal hidden" id="step5">
             <h2>Solve this puzzle</h2>
-            <p>Select all items that contain a <b>CAT 🐈</b>.</p>
-            <div class="puzzle-grid" onclick="selectPuzzleItem(event)">
-                <div class="puzzle-item">🐱</div>
-                <div class="puzzle-item">🐱</div>
-                <div class="puzzle-item">🐱</div>
-                <div class="puzzle-item">🐱</div>
-                <div class="puzzle-item">🐱</div>
-                <div class="puzzle-item">🐶</div>
+            <p>Select the images containing a <b>CAT 🐈</b>.</p>
+            <div class="puzzle-grid">
+                <div class="puzzle-item cat" onclick="toggleSelect(this)">🐱</div>
+                <div class="puzzle-item cat" onclick="toggleSelect(this)">🐱</div>
+                <div class="puzzle-item cat" onclick="toggleSelect(this)">🐱</div>
+                <div class="puzzle-item dog" onclick="toggleSelect(this)">🐶</div>
+                <div class="puzzle-item cat" onclick="toggleSelect(this)">🐱</div>
+                <div class="puzzle-item cat" onclick="toggleSelect(this)">🐱</div>
             </div>
-            <p style="font-size: 10px; color: #888;">Click "Verify" after selecting all valid squares.</p>
-            <button class="modal-btn" id="puzzleVerifyBtn" disabled onclick="nextStep('step5', 'step6')">Verify</button>
+            <button class="modal-btn" id="puzzleVerifyBtn" onclick="verifyPuzzle()">Verify</button>
         </div>
 
         <div class="modal hidden" id="step6">
             <h2>Confirm 2FA Code</h2>
-            <p>A verification code was sent to your primary mobile device ending in **00.</p>
+            <p>A verification code was sent to your phantom phone.</p>
             <div class="timer" id="timer">30</div>
             <div class="input-group">
                 <input type="text" placeholder="123456" maxlength="6" style="text-align: center; font-size: 24px;">
             </div>
             <button class="modal-btn" onclick="nextStep('step6', 'step7')">Verify Code</button>
-            <p style="color: #888; font-size: 11px;">Resend code</p>
         </div>
 
         <div class="modal hidden" id="step7">
             <h2>AdBlocker Detected!</h2>
-            <p>Please disable your AdBlocker extension. We need ads to fund the intense math required for this calculation.</p>
-            <div style="background: rgba(255,102,204,0.1); border: 2px dashed #ff66cc; padding: 15px; margin-bottom: 20px;">
-                <p style="font-size: 11px; color: #aaa;">[ This container would contain an ad. We see you are blocking it. ]</p>
-            </div>
+            <p>Please disable your AdBlocker extension. We need ads to fund the intense math required.</p>
             <button class="modal-btn" onclick="nextStep('step7', 'step8')">AdBlocker is Disabled</button>
         </div>
 
         <div class="modal hidden" id="step8">
             <h2>Loyalty Oath 🖤</h2>
-            <p>By clicking continue, you swear eternal allegiance to the Kuromi Empire, acknowledging My Melody as the sworn enemy.</p>
-            <button class="modal-btn" style="background:#4a3055;" onclick="alert('TREASON IS FORBIDDEN!')">Rejects</button>
-            <button class="modal-btn" onclick="nextStep('step8', 'step9')">I Swear Loyalty 😈</button>
+            <p>Do you swear eternal allegiance to the Kuromi Empire?</p>
+            <button class="modal-btn" onclick="nextStep('step8', 'step9')">Yes</button>
+            <button class="modal-btn secondary-btn" onclick="showCurse()">No</button>
+        </div>
+
+        <div class="modal hidden" id="curseModal">
+            <h2 style="color: #ff3333;">CURSED 💀</h2>
+            <p style="font-style: italic;">"May you stub your pinky toe on furniture every single day.</p>
+            <p style="font-style: italic;">May a glass of water never cure your hiccups.</p>
+            <p style="font-style: italic;">And may you accidentally auto-sell all your high-value and rare swords in Sword Factory!"</p>
+            <button class="modal-btn" style="background: #990000; margin-top: 15px;" onclick="nextStep('curseModal', 'step8')">I'll do better master</button>
         </div>
 
         <div class="modal hidden" id="step9">
-            <h2>Microphone Check</h2>
-            <p>Say "One Plus One" clearly to verify your intent to add.</p>
-            <div class="loader" style="border-top-color: #d896ff;"></div>
-            <p style="font-size: 11px; color: #aaa;">Waiting for voice input...</p>
-            <button class="modal-btn secondary-btn" onclick="alert('Skipping voice check. Manual confirmation needed.') ; nextStep('step9', 'step10')">Skip Voice Check</button>
+            <h2>Girlfriend Check 💅</h2>
+            <p>What is your girl's favorite color?</p>
+            <div class="color-grid">
+                <button class="color-btn" style="background: #4caf50;" onclick="checkColor('green')">Green</button>
+                <button class="color-btn" style="background: #ffeb3b; color: black;" onclick="checkColor('yellow')">Yellow</button>
+                <button class="color-btn" style="background: #9c27b0;" onclick="checkColor('purple')">Purple</button>
+                <button class="color-btn" style="background: #e91e63;" onclick="checkColor('pink')">Pink</button>
+            </div>
         </div>
 
         <div class="modal hidden" id="step10">
@@ -309,29 +314,28 @@
                 <input type="email" placeholder="you@email.com" id="subscribeEmail">
             </div>
             <label class="checkbox-container" style="background: none; border:none; padding: 0;">
-                <input type="checkbox" checked>
-                Subscribe me to marketing emails
+                <input type="checkbox" checked> Subscribe me to marketing emails
             </label>
             <button class="modal-btn" onclick="nextStep('step10', 'step11')">Subscribe & Continue</button>
         </div>
 
         <div class="modal hidden" id="step11">
             <h2>Reveal Answer?</h2>
-            <p>To view the total for your calculation, please subscribe to Kuromi Premium for only <b>₱250/month</b>.</p>
+            <p>To view the total for your calculation, please subscribe to Kuromi Premium for only <b>₱1,200/month</b> (yes, inflation).</p>
             <button class="modal-btn" onclick="processSubscription()">Pay & Subscribe 💸</button>
-            <button class="modal-btn secondary-btn" onclick="alert('You cannot view the answer without payment.')">No Thanks</button>
+            <button class="modal-btn secondary-btn" onclick="rejectSubscription()">No Thanks</button>
         </div>
 
         <div class="modal hidden" id="step12">
             <h2>Processing Payment...</h2>
             <div class="loader"></div>
-            <p style="margin-top: 10px; color: #aaa;">DO NOT CLOSE THIS WINDOW or your answer will be lost forever.</p>
+            <p style="margin-top: 10px; color: #aaa;">DO NOT CLOSE THIS WINDOW</p>
         </div>
 
         <div class="modal hidden" id="step13">
             <h2>🎉 Success! 🎉</h2>
-            <p>Your subscription kemerut was successful. Your soul and ₱250 are now ours. Thank you for choosing Kuromi Premium!</p>
-            <button class="modal-btn" style="font-size: 18px;" onclick="showTotal()">REVEAL MY ANSWER</button>
+            <p>Your subscription kemerut was successful. Your soul and ₱1,200 are now ours.</p>
+            <button class="modal-btn" style="font-size: 18px;" onclick="showTotalNormal()">REVEAL MY ANSWER</button>
         </div>
 
     </div>
@@ -356,38 +360,56 @@
             display.value = currentExpression;
         }
 
-        // Starts the annoying sequence when "=" is clicked
         function startVerification() {
-            if (currentExpression === '' || display.value === 'Error 💀') return;
+            if (currentExpression === '' || display.value === 'Error 💀' || display.value.includes('π')) return;
             document.getElementById('overlay').style.display = 'flex';
         }
 
-        // Checkbox logic for Robot step
         function toggleRobotBtn() {
             const isChecked = document.getElementById('robotCheck').checked;
             document.getElementById('btn1').disabled = !isChecked;
         }
 
-        // Standard Hides current step, shows the next step
         function nextStep(currentId, nextId) {
             document.getElementById(currentId).classList.add('hidden');
             document.getElementById(nextId).classList.remove('hidden');
-
-            // Start 2FA timer when the step shows
             if (nextId === 'step6') start2faTimer();
         }
 
-        // Fake puzzle selection logic
-        function selectPuzzleItem(event) {
-            if (!event.target.closest('.puzzle-item')) return;
-            const item = event.target.closest('.puzzle-item');
-            item.classList.toggle('selected');
-            
-            // Allow them to click "Verify" after any click, makes it more prank-like
-            document.getElementById('puzzleVerifyBtn').disabled = false;
+        // CAT PUZZLE LOGIC
+        function toggleSelect(el) {
+            el.classList.toggle('selected');
         }
 
-        // Fake 2FA Timer logic
+        function verifyPuzzle() {
+            const catsSelected = document.querySelectorAll('.cat.selected').length;
+            const dogsSelected = document.querySelectorAll('.dog.selected').length;
+
+            if (catsSelected === 5 || dogsSelected > 0) {
+                // If they clicked ALL cats, or clicked the dog
+                alert("Verification failed! Are you a robot?");
+                document.querySelectorAll('.puzzle-item').forEach(el => el.classList.remove('selected'));
+            } else if (catsSelected === 0) {
+                alert("You must select at least one cat!");
+            } else {
+                // Passed! (Selected 1 to 4 cats, and 0 dogs)
+                nextStep('step5', 'step6');
+            }
+        }
+
+        // LOYALTY CURSE
+        function showCurse() {
+            nextStep('step8', 'curseModal');
+        }
+
+        // GF COLOR CHECK LOGIC
+        function checkColor(color) {
+            if (color !== 'purple') {
+                alert(`Who's your other woman that likes ${color}?!?! 😡🔪`);
+            }
+            nextStep('step9', 'step10');
+        }
+
         function start2faTimer() {
             clearInterval(timerInterval);
             let timeLeft = 30;
@@ -397,49 +419,56 @@
                 document.getElementById('timer').textContent = timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    alert("Verification code expired. Send a new code.");
-                    nextStep('step6', 'step6'); // Restart the step
+                    alert("Code expired.");
+                    nextStep('step6', 'step6'); 
                 }
             }, 1000);
         }
 
-        // Handles the fake subscription process
         function processSubscription() {
-            nextStep('step11', 'step12'); // Show processing
-            
-            // Wait 5 seconds, then show success (make them suffer)
+            nextStep('step11', 'step12'); 
             setTimeout(() => {
                 nextStep('step12', 'step13');
-            }, 5000);
+            }, 4000);
         }
 
-        // Finally calculates and closes the overlay
-        function showTotal() {
+        // IF REJECTED: Show broke message and PI answer
+        function rejectSubscription() {
+            alert("Broke ahh mf 😒💅");
             try {
-                // Calculate the math
                 let answer = eval(currentExpression);
-                // Handle long results
+                let piAnswer = (answer / Math.PI).toFixed(4); // Convert answer to Pi
+                display.value = piAnswer + 'π';
+                currentExpression = answer.toString();
+            } catch (error) {
+                display.value = "Error 💀";
+            }
+            document.getElementById('overlay').style.display = 'none';
+            resetPrank();
+        }
+
+        // IF SUBSCRIBED: Show normal answer
+        function showTotalNormal() {
+            try {
+                let answer = eval(currentExpression);
                 if (answer.toString().length > 10) answer = answer.toFixed(4);
                 display.value = answer;
                 currentExpression = answer.toString();
             } catch (error) {
                 display.value = "Error 💀";
-                currentExpression = '';
             }
-
-            // Hide overlay and reset modals for next time
             document.getElementById('overlay').style.display = 'none';
             resetPrank();
         }
 
-        // Resets the modals so it happens again next time they click '='
         function resetPrank() {
             document.getElementById('step13').classList.add('hidden');
+            document.getElementById('curseModal').classList.add('hidden');
+            document.getElementById('step11').classList.add('hidden');
             document.getElementById('step1').classList.remove('hidden');
             document.getElementById('robotCheck').checked = false;
             document.getElementById('btn1').disabled = true;
             document.querySelectorAll('.puzzle-item').forEach(el => el.classList.remove('selected'));
-            document.getElementById('puzzleVerifyBtn').disabled = true;
             clearInterval(timerInterval);
         }
     </script>
